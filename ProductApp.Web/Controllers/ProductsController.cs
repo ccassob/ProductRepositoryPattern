@@ -1,6 +1,7 @@
 ﻿using ProductApp.Core;
 using ProductApp.Core.Models;
 using ProductApp.Infrastructure;
+using ProductApp.Infrastructure.Contexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,21 +10,27 @@ using System.Web.Mvc;
 
 namespace ProductApp.Web.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductsController : Controller, IDisposable
     {
+        private readonly IUnitOfWork unitOfWork;
+
+        public ProductsController()
+        {
+            unitOfWork = new UnitOfWork(new ProductContext());
+        }
+
         // GET: Products
         public ActionResult Index()
         {
             IEnumerable<Product> products;
-
-            using (var unitOfWork = new UnitOfWork(context: new Infrastructure.Contexts.ProductContext()))
+            using (unitOfWork)
             {
                 products = unitOfWork.Products.GetAll();
             }
 
-
             return View(products);
         }
+
 
         // GET: Products/Details/5
         public ActionResult Details(int id)

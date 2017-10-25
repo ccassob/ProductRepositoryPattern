@@ -1,6 +1,8 @@
 ﻿using ProductApp.Core.Models;
 using ProductApp.Core.Repositories;
 using ProductApp.Infrastructure.Contexts;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ProductApp.Infrastructure.Repositories
 {
@@ -8,6 +10,7 @@ namespace ProductApp.Infrastructure.Repositories
     {
         public ProductRepository(ProductContext context) : base(context)
         {
+
         }
     }
 }
